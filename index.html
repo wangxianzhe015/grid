@@ -1,0 +1,139 @@
+<html>
+<head>
+	<title>Accordion with JS-Grid</title>
+    <link rel="stylesheet" href="assets/css/lib/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/lib/jquery.fileupload.css">
+    <link rel="stylesheet" href="assets/css/lib/jquery.fileupload-ui.css">
+    <link rel="stylesheet" href="assets/css/lib/jsgrid.css">
+    <link rel="stylesheet" href="assets/css/lib/theme.css">
+    <link rel="stylesheet" href="assets/css/app/app.css">
+</head>
+<body>
+<div id="accordion">
+    <h3>General</h3>
+    <div id="general-div"></div>
+    <h3>Travel</h3>
+    <div id="travel-div"></div>
+    <h3>Entertainment</h3>
+    <div id="entertainment-div"></div>
+    <h3>People</h3>
+    <div id="people-div">
+        <div id="inputwrapper">
+            <input type="text" id="name" placeholder="Full Name"/>
+            <select id="type">
+                <option value="Client - Local">Client - Local</option>
+                <option value="Client - Intl">Client - Intl</option>
+                <option value="Staff - Local">Staff - Local</option>
+                <option value="Staff - Intl">Staff - Intl</option>
+            </select>
+            <label for="type">Classification</label>
+            <button id="addBtn" class="btn btn-info">Add</button>
+            <button id='cleBtn' class="btn btn-general">Clear</button>
+        </div>
+
+        <table id="people-table" class="table table-bordered table-striped">
+            <tr>
+                <th width="10%;">No.</th>
+                <th width="30%;">Full Name</th>
+                <th width="25%;">Classification</th>
+                <th width="35%;">Operation</th>
+            </tr>
+        </table>
+    </div>
+    <h3>Upload</h3>
+    <div style="padding: 1em;">
+        <form id="file-upload" action="upload" method="POST" enctype="multipart/form-data">
+            <div class="fileupload-buttonbar">
+                <div class="fileupload-buttons">
+                    <span class="fileinput-button">
+                        <span>Add files...</span>
+                        <input type="file" name="files[]" multiple>
+                    </span>
+                    <button type="submit" class="start">Start upload</button>
+                    <button type="reset" class="cancel">Cancel upload</button>
+                    <button type="button" class="delete">Delete</button>
+                    <input type="checkbox" class="toggle">
+                    <!-- The global file processing state -->
+                    <span class="fileupload-process"></span>
+                </div>
+                <div class="fileupload-progress fade" style="display:none">
+                    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-extended">&nbsp;</div>
+                </div>
+            </div>
+            <table role="presentation"><tbody class="files"></tbody></table>
+            <div id="dropzone"></div>
+        </form>
+    </div>
+</div>
+
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade in">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error"></strong>
+        </td>
+        <td class="progress-td">
+            <p class="size">Processing...</p>
+            <div class="progress"></div>
+        </td>
+        <td class="action-td">
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="start" disabled>Start</button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="cancel">Cancel</button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download">
+        <td>
+            <span class="preview">
+                {% if (file.thumbnailUrl) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                {% } %}
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+            </p>
+            {% if (file.error) { %}
+                <div><span class="error">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
+            <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>Delete</button>
+            <input type="checkbox" name="delete" value="1" class="toggle">
+        </td>
+    </tr>
+{% } %}
+</script>
+
+<script type="text/javascript" src="assets/js/lib/jquery.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery-ui.min.js"></script>
+<script type="text/javascript" src="assets/js/lib/tmpl.min.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery.fileupload.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery.fileupload-process.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery.fileupload-validate.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery.fileupload-jquery-ui.js"></script>
+<script type="text/javascript" src="assets/js/lib/jsgrid.min.js"></script>
+<script type="text/javascript" src="assets/js/app/indexedDB.js"></script>
+<script type="text/javascript" src="assets/js/app/main.js"></script>
+
+</body>
+</html>
