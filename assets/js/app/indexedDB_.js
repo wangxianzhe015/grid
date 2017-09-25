@@ -11,7 +11,8 @@ function initDBConnection(){
 
 function addHandler(data){
     var name = data.name, type = data.type;
-    var open = indexedDB.open("AccordionDatabase", 1);
+    var open = indexedDB.open("AccordionDatabase", 1),
+        res;
 
     return open.onsuccess = function() {
         // Start a new transaction
@@ -21,15 +22,15 @@ function addHandler(data){
 
         // Add data
         var request = store.put({name: name, type: type});
-        var res = request.onsuccess = function(event){
-            return event.target.result;
+        request.onsuccess = function(event){
+            res = {id: event.target.result, name: name, type: type};
+            console.log(res);
         };
 
         // Close the db when the transaction is done
         tx.oncomplete = function() {
             db.close();
         };
-        console.log(res);
         return res;
     };
 
@@ -70,7 +71,7 @@ function updateHandler(data){
     };
 }
 
-function listPeople(filter){
+function listPeople(filter, callback){
     var name = filter.name,
         type = filter.type,
         open = indexedDB.open("AccordionDatabase",1),
@@ -83,13 +84,26 @@ function listPeople(filter){
         var request = store.getAll();
         request.onsuccess = function(event){
             res = event.target.result;
+            callback(res);
         };
 
         // Close the db when the transaction is done
         transaction.oncomplete = function() {
             db.close();
         };
-
     };
 
+}
+
+function getIndexedDBResult(){
+    var res;
+    if (peopleResult == null){
+        setTimeout(function(){
+            return getIndexedDBResult();
+        },1000);
+    } else {
+        res = peopleResult;
+        peopleResult = null;
+        return res;
+    }
 }

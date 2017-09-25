@@ -11,7 +11,7 @@ function initDBConnection(){
 
 function addHandler(){
     var name = $("#name").val();
-    var type = $("#type").prop("checked")?"yes":"no";
+    var type = $("#type").val();
     if (name == ""){
         alert("Input Full Name!");
         $("#name").focus();
@@ -147,6 +147,7 @@ function listPeople(){
                 // First Row
                 var value = cursor.value;
                 var row = document.createElement("tr");
+                row.className = "person";
                 var noTd = document.createElement("td");
                 noTd.innerHTML = index;
                 $(row).append(noTd);

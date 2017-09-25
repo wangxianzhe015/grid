@@ -1,12 +1,24 @@
 /**
  * Created by Steel on 9/18/2017.
  */
-
 $(document).ready(function(){
 
+    initDBConnection();
     composeTab1();
     composeTab2();
-    composeTab3();
+
+    var people, open = indexedDB.open("AccordionDatabase",1);
+    open.onsuccess = function(){
+        var db = open.result;
+        var transaction = db.transaction("PeopleStore", "readwrite");
+        var store = transaction.objectStore("PeopleStore");
+        var request = store.getAll();
+        request.onsuccess = function(e){
+            people = e.target.result;
+            composeTab3(people);
+        };
+    };
+
     composeTab4();
     composeTab5();
 
@@ -65,7 +77,7 @@ $(document).ready(function(){
         });
         data.entertainment = object;
 
-        rows = $("#people-div").find(".jsgrid-grid-body").find(".jsgrid-table").find("tr");
+        rows = $("#people-div").find(".person");
         object = [];
         rows.each(function(i,row){
             elements = $(row).find("td");
@@ -73,7 +85,7 @@ $(document).ready(function(){
                 object.push({
                     id: elements[0].innerHTML,
                     name: elements[1].innerHTML,
-                    type: elements[2].innerHTML
+                    type: $(elements[2]).find("input").val()
                 });
             }
         });
@@ -99,11 +111,11 @@ $(document).ready(function(){
 function composeTab1(){
     $("#general-div").jsGrid({
         height: "100%",
-        width: "100%",
-        filtering: false,
+        width: "798px",
+        filtering: true,
         inserting: true,
         editing: true,
-        sorting: false,
+        sorting: true,
         paging: true,
         autoload: true,
         pageSize: 10,
@@ -176,11 +188,11 @@ function composeTab2(){
 
     $("#travel-div").jsGrid({
         height: "100%",
-        width: "100%",
-        filtering: false,
+        width: "800px",
+        filtering: true,
         inserting: true,
         editing: true,
-        sorting: false,
+        sorting: true,
         paging: true,
         autoload: true,
         pageSize: 10,
@@ -227,16 +239,15 @@ function composeTab2(){
     });
 }
 
-function composeTab3(){
-    var people = listPeople();
+function composeTab3(people){
 
     $("#entertainment-div").jsGrid({
         height: "100%",
-        width: "100%",
+        width: "798px",
         filtering: true,
         inserting: true,
         editing: true,
-        sorting: false,
+        sorting: true,
         paging: true,
         autoload: true,
         pageSize: 10,
@@ -285,64 +296,14 @@ function composeTab3(){
 }
 
 function composeTab4(){
-    var types = [
-        {
-            name: "Client - local",
-            value: "Client - local"
-        },
-        {
-            name: "Client - Intl",
-            value: "Client - Intl"
-        },
-        {
-            name: "Staff - local",
-            value: "Staff - local"
-        },
-        {
-            name: "Staff - Intl",
-            value: "Staff - Intl"
-        }
-    ];
-    $("#people-div").jsGrid({
-        height: "100%",
-        width: "100%",
-        filtering: false,
-        inserting: true,
-        editing: true,
-        sorting: false,
-        paging: true,
-        autoload: true,
-        pageSize: 10,
-        pageButtonCount: 5,
-        deleteConfirm: "Do you really want to delete person?",
-        controller: {
-            loadData: function() {
-                return listPeople();
-            },
-            insertItem: function(person) {
-                if (person.name != "") {
-                    var res = addHandler(person);
-                    composeTab3();
-                    return res;
-                }
-            },
-            updateItem: function(person) {
-                var res = updateHandler(person);
-                composeTab3();
-                return res;
-            },
-            deleteItem: function(person) {
-                removeHandler(person);
-                composeTab3();
-            }
-        },
-        fields: [
-            { name: "id",        title: "ID",     type: "",       width: 50},
-            { name: "name",      title: "Name",   type: "text",   width: 100 },
-            { name: "type",      title: "Type",   type: "select", width: 150, items: types, valueField: "name", textField: "value" },
-            { type: "control" }
-        ]
-    });}
+    $("#addBtn").on("click", addHandler);
+    $("#cleBtn").on("click", clearHandler);
+    $(".remove").on("click",function(){
+
+    });
+    initDBConnection();
+    listPeople();
+}
 
 function composeTab5(){
     var obj = $('#file-upload');
@@ -388,3 +349,4 @@ function handleDatePicker(){
         }
     });
 }
+
