@@ -1,5 +1,10 @@
+@font-face {
+    font-family: VagRounded;
+    src: url('../fonts/VAGRoundedStd-Black.eot');
+    src: url('../fonts/VAGRoundedStd-Black.eot?#iefix') format('embedded-opentype'), url('../fonts/VAGRoundedStd-Black.woff') format('woff'), url('../fonts/VAGRoundedStd-Black.ttf') format('truetype'), url('../fonts/VAGRoundedStd-Black.svg') format('svg');
+}
 *{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: VagRounded, Helvetica, sans-serif;
     outline: none;
 }
 :active{
