@@ -98,15 +98,15 @@ $(document).ready(function(){
 
 function composeTab1(){
     $("#general-div").jsGrid({
-        height: "100%",
-        width: "100%",
+        height: "350px",
+        width: "800px",
         filtering: false,
         inserting: true,
         editing: true,
         sorting: false,
         paging: true,
         autoload: true,
-        pageSize: 10,
+        pageSize: 9,
         pageButtonCount: 5,
         deleteConfirm: "Do you really want to delete client?",
         controller: {
@@ -141,7 +141,7 @@ function composeTab1(){
         },
         fields: [
             { name: "id",        title: "ID",           type: "",       width: 50,  filtering: false},
-            { name: "date",      title: "Date",         type: "text",   width: 100 },
+            { name: "date",      title: "Date",         type: "text",   width: 80 },
             { name: "supplier",  title: "Supplier",     type: "text",   width: 100 },
             { name: "reason",    title: "Reason",       type: "text",   width: 150 },
             { name: "amount",    title: "Amount",       type: "text",   width: 80 },
@@ -175,15 +175,15 @@ function composeTab2(){
     ];
 
     $("#travel-div").jsGrid({
-        height: "100%",
-        width: "100%",
+        height: "350px",
+        width: "800px",
         filtering: false,
         inserting: true,
         editing: true,
         sorting: false,
         paging: true,
         autoload: true,
-        pageSize: 10,
+        pageSize: 9,
         pageButtonCount: 5,
         deleteConfirm: "Do you really want to delete client?",
         controller: {
@@ -218,7 +218,7 @@ function composeTab2(){
         },
         fields: [
             { name: "id",        title: "ID",           type: "",           width: 50,  filtering: false},
-            { name: "date",      title: "Date",         type: "text",       width: 100 },
+            { name: "date",      title: "Date",         type: "text",       width: 80 },
             { name: "supplier",  title: "Supplier",     type: "text",       width: 100 },
             { name: "type",      title: "Type",         type: "select",     width: 100, items:types, valueField:"value", textField: "name" },
             { name: "amount",    title: "Amount",       type: "text",       width: 80 },
@@ -231,15 +231,15 @@ function composeTab3(){
     var people = listPeople();
 
     $("#entertainment-div").jsGrid({
-        height: "100%",
-        width: "100%",
+        height: "350px",
+        width: "800px",
         filtering: true,
         inserting: true,
         editing: true,
         sorting: false,
         paging: true,
         autoload: true,
-        pageSize: 10,
+        pageSize: 9,
         pageButtonCount: 5,
         deleteConfirm: "Do you really want to delete client?",
         controller: {
@@ -274,10 +274,10 @@ function composeTab3(){
         },
         fields: [
             { name: "id",        title: "ID",           type: "",       width: 50,  filtering: false},
-            { name: "date",      title: "Date",         type: "text",   width: 100 },
+            { name: "date",      title: "Date",         type: "text",   width: 80 },
             { name: "supplier",  title: "Supplier",     type: "text",   width: 100 },
-            { name: "person_id", title: "Person",       type: "select", width: 150, items: people, valueField: "id", textField: "name" },
-            { name: "place",     title: "place",        type: "text",   width: 80 },
+            { name: "person_id", title: "Person",       type: "select", width: 100, items: people, valueField: "name", textField: "name" },
+            { name: "place",     title: "place",        type: "text",   width: 100 },
             { name: "amount",    title: "Amount",       type: "text",   width: 80 },
             { type: "control" }
         ]
@@ -304,15 +304,15 @@ function composeTab4(){
         }
     ];
     $("#people-div").jsGrid({
-        height: "100%",
-        width: "100%",
+        height: "352px",
+        width: "798px",
         filtering: false,
         inserting: true,
         editing: true,
         sorting: false,
         paging: true,
         autoload: true,
-        pageSize: 10,
+        pageSize: 9,
         pageButtonCount: 5,
         deleteConfirm: "Do you really want to delete person?",
         controller: {
@@ -337,8 +337,8 @@ function composeTab4(){
             }
         },
         fields: [
-            { name: "id",        title: "ID",     type: "",       width: 50},
-            { name: "name",      title: "Name",   type: "text",   width: 100 },
+            { name: "id",        title: "ID",     type: "",       width: 50 },
+            { name: "name",      title: "Name",   type: "text",   width: 150 },
             { name: "type",      title: "Type",   type: "select", width: 150, items: types, valueField: "name", textField: "value" },
             { type: "control" }
         ]
